@@ -12,13 +12,12 @@ const [owner, repo] = repository.split("/");
 
   console.log("Looking for releases");
 
-  for await (const response of octokit.paginate.iterator(
-    octokit.repo.listReleases,
+  for await (const response of (<any>octokit.paginate.iterator)(
+    octokit.repos.listReleases,
     {
       owner,
       repo
-    }
-  )) {
+    })) {
     const release: any = response.data;
     console.log("Found Release: ", release.name, JSON.stringify(release));
     if (release.id && release.draft) {
@@ -31,4 +30,7 @@ const [owner, repo] = repository.split("/");
       })
     }
   }
-})();
+})()
+.catch(err => {
+  console.error("Error: ", err);
+});
