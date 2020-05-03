@@ -19,17 +19,19 @@ const [owner, repo] = repository.split("/");
     });
 
   for await (const response of octokit.paginate.iterator(options)) {
-    const release: any = response.data;
-    console.log("Found Release: ", release.name, JSON.stringify(response));
-    if (release.id && release.draft) {
-      const release_id = release.id;
-      console.log('Deleting Draft Release: ', release.name);
-      octokit.repos.deleteRelease({
-        owner,
-        repo,
-        release_id
-      })
-    }
+    const releases: any[] = response.data;
+    releases.forEach(release => {
+      console.log("Found Release: ", release.name);
+      if (release.id && release.draft) {
+        const release_id = release.id;
+        console.log('Deleting Draft Release: ', release.name);
+        octokit.repos.deleteRelease({
+          owner,
+          repo,
+          release_id
+        })
+      }
+    })
   }
 })()
   .catch(err => {
