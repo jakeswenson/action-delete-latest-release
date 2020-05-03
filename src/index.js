@@ -8,6 +8,7 @@ const octokit = new Octokit({
     auth: token
 });
 
+console.log("Looking for releases");
 
 for await (const release of octokit.paginate.iterator(
   octokit.repo.listReleases,
@@ -16,6 +17,7 @@ for await (const release of octokit.paginate.iterator(
     repo
   }
 )) {
+    console.log("Found Release: ", release.name, JSON.stringify(release));
     if (release.id && release.draft) {
         const release_id = release.id;
         console.log('Deleting Draft Release: ', release.name);
