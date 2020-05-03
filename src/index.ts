@@ -19,7 +19,7 @@ const [owner, repo] = repository.split("/");
       repo
     })) {
     const release: any = response.data;
-    console.log("Found Release: ", release.name, JSON.stringify(release));
+    console.log("Found Release: ", release.name, JSON.stringify(response));
     if (release.id && release.draft) {
       const release_id = release.id;
       console.log('Deleting Draft Release: ', release.name);
