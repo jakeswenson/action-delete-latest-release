@@ -13,7 +13,7 @@ const [owner, repo] = repository.split("/");
   console.log("Looking for releases");
 
   for await (const response of (<any>octokit.paginate.iterator)(
-    octokit.repos.listReleases,
+    octokit.repos.listReleases.endpoint,
     {
       owner,
       repo
